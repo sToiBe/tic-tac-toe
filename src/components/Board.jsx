@@ -1,4 +1,3 @@
-import {useState} from "react";
 import './Board.css';
 
 // eslint-disable-next-line react/prop-types
@@ -6,21 +5,20 @@ function Square({value, onSquareClick}) {
     return <button className="square" onClick={onSquareClick}>{value}</button>
 }
 
-export default function Board() {
-    const [xIsNext, setXIsNext] = useState(true);
-    const [squares, setSquares] = useState(Array(9).fill(null));
+// eslint-disable-next-line react/prop-types
+export default function Board({xIsNext, squares, onPlay}) {
 
     function handleClick(i) {
         if (squares[i] || calculateWinner(squares)) return;
 
+        // eslint-disable-next-line react/prop-types
         const nextSquares = squares.slice();
         if (xIsNext) {
             nextSquares[i] = "X";
         } else {
             nextSquares[i] = "O";
         }
-        setSquares(nextSquares);
-        setXIsNext(!xIsNext);
+        onPlay(nextSquares)
     }
 
     const winner = calculateWinner(squares);
